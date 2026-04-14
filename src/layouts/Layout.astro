@@ -5,8 +5,8 @@ interface Props {
 }
 
 const {
-  title = "KubePocket — Kubernetes, simplified.",
-  description = "Manage your Kubernetes clusters from your phone. KubePocket gives you real-time visibility and control — anywhere, anytime.",
+  title = "KubePocket — Kubernetes Cost & Resource Monitor",
+  description = "Track CPU, memory, costs and anomalies across your Kubernetes clusters — with a pre-built Grafana dashboard and zero configuration.",
 } = Astro.props;
 ---
 
@@ -22,12 +22,20 @@ const {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <!-- Apply theme before first paint to prevent flash -->
+    <script is:inline>
+      (function () {
+        var mode = localStorage.getItem('theme') || 'auto';
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var isDark = mode === 'dark' || (mode === 'auto' && prefersDark);
+        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      })();
+    </script>
   </head>
-  <body class="bg-gray-950 text-white antialiased" style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">
+  <body style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased;">
     <slot />
   </body>
 </html>
