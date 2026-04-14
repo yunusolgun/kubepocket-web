@@ -2,7 +2,10 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout>
+<Layout
+  title="KubePocket — Kubernetes Cost & Resource Monitor"
+  description="Lightweight Kubernetes monitoring that tracks resource usage, detects anomalies, and surfaces cloud costs — all in one Grafana dashboard."
+>
   <!-- NAV -->
   <nav class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-gray-950/80 backdrop-blur-md border-b border-white/5">
     <span class="text-lg font-bold tracking-tight">
@@ -18,24 +21,20 @@ import Layout from '../layouts/Layout.astro';
 
   <!-- HERO -->
   <section class="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24 pb-16">
-    <!-- Badge -->
     <div class="mb-6 inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">
       <span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
-      Coming soon — join the waitlist
+      Lightweight · Zero-config · Open source
     </div>
 
-    <!-- Headline -->
     <h1 class="text-4xl sm:text-6xl font-extrabold leading-tight tracking-tight max-w-3xl">
-      Kubernetes, in your&nbsp;<span class="text-blue-400">pocket</span>.
+      Kubernetes cost & resource&nbsp;<span class="text-blue-400">monitoring</span>, simplified.
     </h1>
 
-    <!-- Sub -->
-    <p class="mt-6 text-lg sm:text-xl text-gray-400 max-w-xl leading-relaxed">
-      Monitor pods, namespaces, and deployments from your phone.
-      Real-time visibility and control — no laptop required.
+    <p class="mt-6 text-lg sm:text-xl text-gray-400 max-w-2xl leading-relaxed">
+      KubePocket tracks CPU, memory, pod restarts, and cloud costs across your clusters —
+      with anomaly detection, 7-day forecasting, and Grafana dashboards out of the box.
     </p>
 
-    <!-- CTA -->
     <div class="mt-10 flex flex-col sm:flex-row items-center gap-3">
       <a
         href="#waitlist"
@@ -55,42 +54,57 @@ import Layout from '../layouts/Layout.astro';
   <!-- FEATURES -->
   <section id="features" class="py-24 px-6">
     <div class="max-w-5xl mx-auto">
-      <h2 class="text-3xl sm:text-4xl font-bold text-center mb-4">Everything you need, on the go</h2>
-      <p class="text-gray-400 text-center mb-16 max-w-lg mx-auto">
-        KubePocket brings your cluster dashboard to iOS and Android — built for engineers who can't always be at their desk.
+      <h2 class="text-3xl sm:text-4xl font-bold text-center mb-4">Everything you need to understand your cluster costs</h2>
+      <p class="text-gray-400 text-center mb-16 max-w-xl mx-auto">
+        From real-time metrics to weekly cost summaries — KubePocket gives you full visibility without the complexity.
       </p>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {[
           {
-            icon: "📦",
-            title: "Pod Management",
-            desc: "View running pods, check logs, and restart workloads directly from the app.",
+            icon: "📊",
+            title: "Real-time Resource Monitoring",
+            desc: "Track CPU, memory, and pod restarts with namespace-level granularity across all your clusters.",
           },
           {
-            icon: "⚡",
-            title: "Real-time Events",
-            desc: "Stream cluster events as they happen. Catch issues before they become incidents.",
+            icon: "🔍",
+            title: "Anomaly Detection",
+            desc: "Z-score based anomaly detection automatically flags unusual resource consumption before it becomes a problem.",
+          },
+          {
+            icon: "📈",
+            title: "7-day CPU Forecasting",
+            desc: "Predict future CPU usage trends so you can plan capacity and avoid surprise bills.",
           },
           {
             icon: "🌐",
-            title: "Multi-cluster",
-            desc: "Switch between multiple clusters and contexts with a single tap.",
+            title: "Multi-cluster Support",
+            desc: "Monitor multiple clusters from a single Grafana dashboard. All data funnels into one shared view.",
           },
           {
             icon: "🔔",
-            title: "Smart Alerts",
-            desc: "Get notified when pods crash, nodes become unhealthy, or deployments fail.",
+            title: "Webhook Notifications",
+            desc: "Send alerts and automated weekly summaries to Slack, Microsoft Teams, or any custom HTTP endpoint.",
+          },
+          {
+            icon: "⚡",
+            title: "Zero-config Setup",
+            desc: "Works out of the box with minikube, Docker Desktop, and standard clusters. One installer script handles everything.",
           },
           {
             icon: "🔒",
-            title: "Secure by Default",
-            desc: "kubeconfig stays on your device. Nothing is sent to third-party servers.",
+            title: "Offline Licensing",
+            desc: "RSA-based license validation — no external server required. Your data stays in your infrastructure.",
           },
           {
-            icon: "📊",
-            title: "Resource Metrics",
-            desc: "CPU and memory usage at a glance for nodes, pods, and namespaces.",
+            icon: "📦",
+            title: "Prometheus + Grafana",
+            desc: "Exposes a Prometheus metrics endpoint and imports a pre-built Grafana dashboard automatically.",
+          },
+          {
+            icon: "💰",
+            title: "Cost Tracking",
+            desc: "Understand exactly what each namespace and workload is costing you — broken down and ready to act on.",
           },
         ].map((f) => (
           <div class="p-6 rounded-2xl bg-white/5 border border-white/8 hover:border-blue-500/30 transition-colors">
@@ -103,6 +117,53 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 
+  <!-- PRICING -->
+  <section id="pricing" class="py-24 px-6">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl sm:text-4xl font-bold text-center mb-4">Simple pricing</h2>
+      <p class="text-gray-400 text-center mb-16 max-w-md mx-auto">
+        Start free, upgrade when you need more.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+        <!-- Free -->
+        <div class="p-8 rounded-2xl bg-white/5 border border-white/8 flex flex-col">
+          <div class="text-sm font-medium text-gray-400 mb-2">Free</div>
+          <div class="text-4xl font-extrabold mb-1">$0</div>
+          <div class="text-sm text-gray-500 mb-8">forever</div>
+          <ul class="space-y-3 text-sm text-gray-300 flex-1">
+            {["1 cluster", "Up to 4 namespaces", "30-day data retention", "Grafana dashboard", "Prometheus exporter"].map((item) => (
+              <li class="flex items-center gap-2">
+                <span class="text-blue-400">✓</span> {item}
+              </li>
+            ))}
+          </ul>
+          <a href="#waitlist" class="mt-8 block text-center px-4 py-3 rounded-xl border border-white/10 hover:border-blue-500/50 text-sm font-semibold transition-colors">
+            Get Started
+          </a>
+        </div>
+
+        <!-- Pro -->
+        <div class="p-8 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex flex-col relative">
+          <div class="absolute top-4 right-4 text-xs font-semibold px-2 py-0.5 rounded-full bg-blue-500 text-white">Popular</div>
+          <div class="text-sm font-medium text-blue-400 mb-2">Pro</div>
+          <div class="text-4xl font-extrabold mb-1">$99<span class="text-lg font-normal text-gray-400">/yr</span></div>
+          <div class="text-sm text-gray-500 mb-8">or $12/month · per cluster</div>
+          <ul class="space-y-3 text-sm text-gray-300 flex-1">
+            {["Unlimited clusters", "Unlimited namespaces", "365-day data retention", "Multi-cluster dashboard", "Webhook notifications", "Weekly cost summaries", "Anomaly detection", "7-day CPU forecasting"].map((item) => (
+              <li class="flex items-center gap-2">
+                <span class="text-blue-400">✓</span> {item}
+              </li>
+            ))}
+          </ul>
+          <a href="#waitlist" class="mt-8 block text-center px-4 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 text-sm font-semibold transition-colors">
+            Join Waitlist
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- WAITLIST -->
   <section id="waitlist" class="py-24 px-6">
     <div class="max-w-lg mx-auto text-center">
@@ -111,10 +172,7 @@ import Layout from '../layouts/Layout.astro';
         KubePocket is in private beta. Drop your email and we'll let you in early.
       </p>
 
-      <form
-        class="flex flex-col sm:flex-row gap-3"
-        onsubmit="handleSubmit(event)"
-      >
+      <form class="flex flex-col sm:flex-row gap-3" onsubmit="handleSubmit(event)">
         <input
           id="email-input"
           type="email"
@@ -137,7 +195,7 @@ import Layout from '../layouts/Layout.astro';
 
   <!-- FOOTER -->
   <footer class="border-t border-white/5 py-8 px-6 text-center text-sm text-gray-500">
-    <p>© 2025 KubePocket. Built with ❤️ for Kubernetes engineers.</p>
+    <p>© 2025 KubePocket. Kubernetes cost & resource monitoring, simplified.</p>
   </footer>
 </Layout>
 
