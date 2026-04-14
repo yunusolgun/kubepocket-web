@@ -1,19 +1,34 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+const GITHUB = "https://github.com/yunusolgun/kubepocket";
+
 const previews = [
-  { file: "/screenshots/preview-1-overview.png",   label: "Namespace Overview",    desc: "CPU, memory, restarts and anomaly scores per namespace — at a glance." },
-  { file: "/screenshots/preview-3-cost.png",        label: "Cost Analysis",         desc: "See exactly which namespaces are consuming your cluster budget." },
-  { file: "/screenshots/preview-4-waste.png",       label: "Waste Detection",       desc: "Surface over-provisioned pods and reclaim wasted CPU & memory." },
-  { file: "/screenshots/preview-5-podanomaly.png",  label: "Pod Anomaly",           desc: "Rank pods by anomaly score, restart rate, and CPU spikes." },
-  { file: "/screenshots/preview-7-events.png",      label: "Kubernetes Events",     desc: "Track OOMKilled, CrashLoopBackOff, and FailedScheduling in real time." },
-  { file: "/screenshots/preview-9-nodes.png",       label: "Node Capacity",         desc: "Allocatable vs. requested vs. actual usage — per node." },
-  { file: "/screenshots/preview-11-storage.png",    label: "PVC & Storage",         desc: "Bound/unbound PVCs, capacity, and active storage alerts." },
-  { file: "/screenshots/preview-2-recomendations.png", label: "Recommendations",   desc: "Actionable fixes for crashing pods and anomalous workloads." },
+  { file: "/screenshots/preview-1-overview.png",      label: "Namespace Overview", desc: "CPU, memory, restarts and anomaly scores per namespace — at a glance." },
+  { file: "/screenshots/preview-3-cost.png",           label: "Cost Analysis",      desc: "See exactly which namespaces are consuming your cluster budget." },
+  { file: "/screenshots/preview-4-waste.png",          label: "Waste Detection",    desc: "Surface over-provisioned pods and reclaim wasted CPU & memory." },
+  { file: "/screenshots/preview-5-podanomaly.png",     label: "Pod Anomaly",        desc: "Rank pods by anomaly score, restart rate, and CPU spikes." },
+  { file: "/screenshots/preview-7-events.png",         label: "K8s Events",         desc: "Track OOMKilled, CrashLoopBackOff, and FailedScheduling in real time." },
+  { file: "/screenshots/preview-9-nodes.png",          label: "Node Capacity",      desc: "Allocatable vs. requested vs. actual usage per node." },
+  { file: "/screenshots/preview-11-storage.png",       label: "PVC & Storage",      desc: "Bound/unbound PVCs, capacity, and active storage alerts." },
+  { file: "/screenshots/preview-2-recomendations.png", label: "Recommendations",    desc: "Actionable fixes for crashing pods and anomalous workloads." },
 ];
 
-const freeFeatures  = ["1 cluster", "Up to 4 namespaces", "30-day retention", "Grafana dashboard", "Prometheus exporter"];
-const proFeatures   = ["Unlimited clusters", "Unlimited namespaces", "365-day retention", "Multi-cluster view", "Webhook alerts", "Weekly cost reports", "Anomaly detection", "7-day CPU forecast"];
+const tableRows = [
+  { feature: "Clusters",              free: "1",        pro: "Unlimited" },
+  { feature: "Namespaces",            free: "Up to 4",  pro: "Unlimited" },
+  { feature: "Data retention",        free: "30 days",  pro: "365 days"  },
+  { feature: "Grafana dashboard",     free: true,       pro: true        },
+  { feature: "Prometheus exporter",   free: true,       pro: true        },
+  { feature: "Real-time metrics",     free: true,       pro: true        },
+  { feature: "Multi-cluster view",    free: false,      pro: true        },
+  { feature: "Anomaly detection",     free: false,      pro: true        },
+  { feature: "7-day CPU forecast",    free: false,      pro: true        },
+  { feature: "Waste detection",       free: false,      pro: true        },
+  { feature: "Webhook notifications", free: false,      pro: true        },
+  { feature: "Weekly cost reports",   free: false,      pro: true        },
+  { feature: "Offline licensing",     free: true,       pro: true        },
+];
 ---
 
 <Layout
@@ -21,130 +36,148 @@ const proFeatures   = ["Unlimited clusters", "Unlimited namespaces", "365-day re
   description="Track CPU, memory, costs and anomalies across your Kubernetes clusters — with a pre-built Grafana dashboard and zero configuration."
 >
 
-<!-- ── NAV ── -->
-<header class="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-4 bg-[#0a0a0f]/80 backdrop-blur border-b border-white/5">
-  <a href="/" class="text-base font-bold tracking-tight">Kube<span class="text-blue-400">Pocket</span></a>
-  <nav class="hidden md:flex items-center gap-8 text-sm text-gray-400">
-    <a href="#previews" class="hover:text-white transition-colors">Screenshots</a>
-    <a href="#features" class="hover:text-white transition-colors">Features</a>
-    <a href="#pricing"  class="hover:text-white transition-colors">Pricing</a>
+<style>
+  .gradient-text {
+    background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .icon-sm {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+  .icon-xs {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+</style>
+
+<!-- NAV -->
+<header style="position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:rgba(10,10,15,0.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.06);">
+  <a href="/" style="font-size:16px;font-weight:700;letter-spacing:-0.02em;text-decoration:none;color:#fff;">Kube<span style="color:#60a5fa;">Pocket</span></a>
+  <nav style="display:flex;align-items:center;gap:32px;">
+    <a href="#previews" style="font-size:14px;color:#9ca3af;text-decoration:none;">Screenshots</a>
+    <a href="#features" style="font-size:14px;color:#9ca3af;text-decoration:none;">Features</a>
+    <a href="#pricing"  style="font-size:14px;color:#9ca3af;text-decoration:none;">Pricing</a>
   </nav>
-  <a href="https://github.com/yunusolgun/kubepocket" target="_blank" rel="noopener noreferrer"
-     class="flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-lg border border-white/10 hover:border-white/25 text-gray-300 hover:text-white transition-colors">
-    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+  <a href={GITHUB} target="_blank" rel="noopener noreferrer"
+     style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;padding:8px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);color:#d1d5db;text-decoration:none;">
+    <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+    </svg>
     GitHub
   </a>
 </header>
 
-<!-- ── HERO ── -->
-<section class="relative flex flex-col items-center text-center px-6 pt-40 pb-20 overflow-hidden">
-  <!-- ambient glows -->
-  <div class="pointer-events-none absolute inset-0 -z-10">
-    <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[600px] rounded-full bg-blue-600/10 blur-[120px]"></div>
-    <div class="absolute top-1/2 left-1/4  w-[500px] h-[500px] rounded-full bg-violet-700/6 blur-[100px]"></div>
+<!-- HERO -->
+<section style="position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:160px 24px 80px;overflow:hidden;">
+  <div style="position:absolute;inset:0;z-index:-1;pointer-events:none;">
+    <div style="position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:800px;height:500px;border-radius:50%;background:rgba(59,130,246,0.08);filter:blur(100px);"></div>
   </div>
 
-  <div class="mb-5 inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium bg-white/5 text-gray-400 border border-white/10">
-    <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+  <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:500;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:#9ca3af;margin-bottom:24px;">
+    <span style="width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;"></span>
     Open source · Zero-config · Self-hosted
   </div>
 
-  <h1 class="text-5xl sm:text-[4.5rem] font-extrabold leading-[1.05] tracking-tight max-w-4xl">
-    <span class="hero-gradient-text">Kubernetes cost &amp; resource<br/>monitoring</span>
-    <span class="text-blue-400"> — simplified.</span>
+  <h1 style="font-size:clamp(2.5rem,6vw,4.5rem);font-weight:900;line-height:1.05;letter-spacing:-0.03em;max-width:900px;margin:0 0 24px;">
+    <span class="gradient-text">Kubernetes cost &amp; resource<br/>monitoring</span>
+    <span style="color:#60a5fa;"> — simplified.</span>
   </h1>
 
-  <p class="mt-6 text-lg text-gray-400 max-w-2xl leading-relaxed">
+  <p style="font-size:18px;color:#94a3b8;max-width:640px;line-height:1.7;margin:0 0 36px;">
     A lightweight Grafana dashboard that surfaces CPU waste, memory anomalies, pod crashes,
     and cloud costs across all your clusters. One install script, no external servers.
   </p>
 
-  <div class="mt-9 flex flex-wrap justify-center gap-3">
-    <a href="https://github.com/yunusolgun/kubepocket" target="_blank" rel="noopener noreferrer"
-       class="flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 font-semibold text-sm transition-colors">
-      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-bottom:64px;">
+    <a href={GITHUB} target="_blank" rel="noopener noreferrer"
+       style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:12px;background:#3b82f6;color:#fff;font-size:14px;font-weight:600;text-decoration:none;">
+      <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+      </svg>
       View on GitHub
     </a>
     <a href="#previews"
-       class="px-6 py-3 rounded-xl border border-white/10 hover:border-white/25 font-semibold text-sm text-gray-300 hover:text-white transition-colors">
+       style="display:inline-flex;align-items:center;padding:12px 24px;border-radius:12px;border:1px solid rgba(255,255,255,0.12);color:#d1d5db;font-size:14px;font-weight:600;text-decoration:none;">
       See Screenshots ↓
     </a>
   </div>
 
-  <!-- Hero screenshot -->
-  <div class="mt-16 w-full max-w-5xl rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_80px_rgba(59,130,246,0.12)] ring-1 ring-white/5">
-    <div class="flex items-center gap-1.5 px-4 py-3 bg-white/5 border-b border-white/8">
-      <span class="w-3 h-3 rounded-full bg-white/10"></span>
-      <span class="w-3 h-3 rounded-full bg-white/10"></span>
-      <span class="w-3 h-3 rounded-full bg-white/10"></span>
-      <span class="ml-3 text-xs text-gray-500 font-mono">Grafana · KubePocket Dashboard</span>
+  <!-- Hero image -->
+  <div style="width:100%;max-width:1000px;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);box-shadow:0 0 80px rgba(59,130,246,0.12);">
+    <div style="display:flex;align-items:center;gap:6px;padding:12px 16px;background:#111118;border-bottom:1px solid rgba(255,255,255,0.07);">
+      <span style="width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.1);display:block;"></span>
+      <span style="width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.1);display:block;"></span>
+      <span style="width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.1);display:block;"></span>
+      <span style="margin-left:10px;font-size:12px;color:#6b7280;font-family:monospace;">Grafana · KubePocket Dashboard</span>
     </div>
-    <img src="/screenshots/preview-1-overview.png" alt="KubePocket Namespace Overview" class="w-full" loading="eager" />
+    <img src="/screenshots/preview-1-overview.png" alt="KubePocket Namespace Overview" style="width:100%;display:block;" loading="eager" />
   </div>
 </section>
 
-<!-- ── SCREENSHOT CAROUSEL ── -->
-<section id="previews" class="py-28 px-4 sm:px-6">
-  <div class="max-w-5xl mx-auto">
-    <div class="text-center mb-12">
-      <p class="text-sm font-semibold text-blue-400 uppercase tracking-widest mb-3">Screenshots</p>
-      <h2 class="text-3xl sm:text-5xl font-bold mb-4">Built for every corner of your cluster.</h2>
-      <p class="text-gray-400 max-w-lg mx-auto text-base">8 dashboard sections — each focused on a specific operational question.</p>
+<!-- CAROUSEL -->
+<section id="previews" style="padding:112px 24px;">
+  <div style="max-width:960px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:48px;">
+      <p style="font-size:12px;font-weight:600;color:#60a5fa;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">Screenshots</p>
+      <h2 style="font-size:clamp(1.75rem,4vw,3rem);font-weight:800;letter-spacing:-0.02em;margin:0 0 16px;">Built for every corner of your cluster.</h2>
+      <p style="font-size:16px;color:#94a3b8;max-width:480px;margin:0 auto;">8 dashboard sections — each focused on a specific operational question.</p>
     </div>
 
-    <!-- Tab labels -->
-    <div class="flex flex-wrap justify-center gap-2 mb-8" id="slider-tabs">
+    <!-- Tabs -->
+    <div id="slider-tabs" style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:24px;">
       {previews.map((p, i) => (
-        <button
-          data-index={i}
-          class={`slider-tab px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${i === 0 ? 'bg-blue-500 text-white' : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'}`}
-        >
+        <button data-index={i}
+          style={`padding:6px 14px;border-radius:8px;font-size:12px;font-weight:500;border:none;cursor:pointer;transition:all 0.2s;${i === 0 ? 'background:#3b82f6;color:#fff;' : 'background:rgba(255,255,255,0.05);color:#9ca3af;'}`}
+          class="slider-tab">
           {p.label}
         </button>
       ))}
     </div>
 
     <!-- Slide window -->
-    <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_60px_rgba(59,130,246,0.1)]">
+    <div style="border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);box-shadow:0 0 60px rgba(59,130,246,0.08);">
       <!-- Browser bar -->
-      <div class="flex items-center gap-1.5 px-4 py-3 bg-[#111118] border-b border-white/8">
-        <span class="w-3 h-3 rounded-full bg-white/10 block"></span>
-        <span class="w-3 h-3 rounded-full bg-white/10 block"></span>
-        <span class="w-3 h-3 rounded-full bg-white/10 block"></span>
-        <span class="ml-3 text-xs text-gray-500" style="font-family: 'JetBrains Mono', 'Fira Code', monospace;" id="slider-url">Grafana · Namespace Overview</span>
+      <div style="display:flex;align-items:center;gap:6px;padding:12px 16px;background:#111118;border-bottom:1px solid rgba(255,255,255,0.07);">
+        <span style="width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.1);display:block;"></span>
+        <span style="width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.1);display:block;"></span>
+        <span style="width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.1);display:block;"></span>
+        <span id="slider-url" style="margin-left:10px;font-size:12px;color:#6b7280;font-family:monospace;">Grafana · Namespace Overview</span>
       </div>
 
       <!-- Images -->
-      <div class="relative overflow-hidden bg-[#111118]" style="aspect-ratio: 16/9;">
+      <div style="position:relative;background:#111118;aspect-ratio:16/9;">
         {previews.map((p, i) => (
-          <img
-            src={p.file}
-            alt={p.label}
-            data-slide={i}
-            class={`slide-img absolute inset-0 w-full h-full object-cover transition-opacity duration-400 ${i === 0 ? 'opacity-100' : 'opacity-0'}`}
-            loading={i === 0 ? 'eager' : 'lazy'}
-          />
+          <img src={p.file} alt={p.label} data-slide={i}
+            style={`position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity 0.4s;${i === 0 ? 'opacity:1;' : 'opacity:0;'}`}
+            class="slide-img"
+            loading={i === 0 ? 'eager' : 'lazy'} />
         ))}
 
-        <!-- Prev / Next -->
-        <button id="slide-prev" aria-label="Previous" class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center rounded-full bg-black/50 hover:bg-black/70 border border-white/10 text-white transition-colors z-10">
+        <button id="slide-prev" aria-label="Previous"
+          style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.12);color:#fff;cursor:pointer;z-index:10;">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
         </button>
-        <button id="slide-next" aria-label="Next" class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center rounded-full bg-black/50 hover:bg-black/70 border border-white/10 text-white transition-colors z-10">
+        <button id="slide-next" aria-label="Next"
+          style="position:absolute;right:12px;top:50%;transform:translateY(-50%);width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.12);color:#fff;cursor:pointer;z-index:10;">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
         </button>
       </div>
 
       <!-- Caption + dots -->
-      <div class="flex items-center justify-between px-5 py-4 bg-[#111118] border-t border-white/8">
-        <p class="text-sm text-gray-400" id="slider-desc">{previews[0].desc}</p>
-        <div class="flex items-center gap-1.5 shrink-0 ml-4" id="slider-dots">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:#111118;border-top:1px solid rgba(255,255,255,0.07);">
+        <p id="slider-desc" style="font-size:14px;color:#94a3b8;margin:0;">{previews[0].desc}</p>
+        <div id="slider-dots" style="display:flex;align-items:center;gap:6px;flex-shrink:0;margin-left:16px;">
           {previews.map((_, i) => (
-            <button
-              data-dot={i}
-              aria-label={`Slide ${i + 1}`}
-              class={`dot-btn rounded-full transition-all ${i === 0 ? 'w-4 h-1.5 bg-blue-400' : 'w-1.5 h-1.5 bg-white/20 hover:bg-white/40'}`}
-            ></button>
+            <button data-dot={i} aria-label={`Slide ${i + 1}`} class="dot-btn"
+              style={`border:none;cursor:pointer;border-radius:999px;transition:all 0.2s;${i === 0 ? 'width:16px;height:6px;background:#60a5fa;' : 'width:6px;height:6px;background:rgba(255,255,255,0.2);'}`}>
+            </button>
           ))}
         </div>
       </div>
@@ -152,85 +185,96 @@ const proFeatures   = ["Unlimited clusters", "Unlimited namespaces", "365-day re
   </div>
 </section>
 
-<!-- ── FEATURES ── -->
-<section id="features" class="py-24 px-6 border-t border-white/5">
-  <div class="max-w-5xl mx-auto">
-    <div class="text-center mb-16">
-      <p class="text-sm font-semibold text-blue-400 uppercase tracking-widest mb-3">Features</p>
-      <h2 class="text-3xl sm:text-5xl font-bold mb-5">Everything you need,<br class="hidden sm:block"/> nothing you don't.</h2>
+<!-- FEATURES TABLE -->
+<section id="features" style="padding:112px 24px;border-top:1px solid rgba(255,255,255,0.06);">
+  <div style="max-width:760px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:48px;">
+      <p style="font-size:12px;font-weight:600;color:#60a5fa;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">Features</p>
+      <h2 style="font-size:clamp(1.75rem,4vw,3rem);font-weight:800;letter-spacing:-0.02em;margin:0 0 16px;">Free vs Pro</h2>
+      <p style="font-size:16px;color:#94a3b8;max-width:420px;margin:0 auto;">Everything included, broken down by plan.</p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {[
-        { title: "Real-time Metrics",       desc: "CPU, memory, and pod restarts tracked per namespace with live Grafana graphs." },
-        { title: "Anomaly Detection",       desc: "Z-score analysis flags unusual consumption before it turns into an incident." },
-        { title: "7-day CPU Forecast",      desc: "Predictive trending so you can plan capacity before you run out." },
-        { title: "Cost Attribution",        desc: "Relative cost share per namespace with time-series breakdowns." },
-        { title: "Waste Detection",         desc: "Idle and over-provisioned pods ranked by wasted CPU & memory cores." },
-        { title: "Multi-cluster Support",   desc: "Multiple collector instances, one shared Grafana dashboard." },
-        { title: "Webhook Notifications",   desc: "Push alerts and weekly summaries to Slack, Teams, or any HTTP endpoint." },
-        { title: "Offline Licensing",       desc: "RSA-based validation — no external servers. Data stays on your infra." },
-        { title: "One-command Install",     desc: "Automated script handles Docker builds, Helm deploy, and dashboard import." },
-      ].map((f) => (
-        <div class="p-6 rounded-2xl bg-white/[0.03] border border-white/[0.07] hover:bg-white/[0.06] hover:border-blue-500/20 transition-all">
-          <h3 class="font-semibold text-white mb-2 text-sm">{f.title}</h3>
-          <p class="text-xs text-gray-500 leading-relaxed">{f.desc}</p>
+    <div style="border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);">
+      <!-- Table header -->
+      <div style="display:grid;grid-template-columns:1fr 120px 120px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.08);">
+        <div style="padding:14px 20px;font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;">Feature</div>
+        <div style="padding:14px 20px;font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;text-align:center;">Free</div>
+        <div style="padding:14px 20px;font-size:12px;font-weight:600;color:#60a5fa;text-transform:uppercase;letter-spacing:0.05em;text-align:center;">Pro</div>
+      </div>
+
+      {tableRows.map((row, i) => (
+        <div style={`display:grid;grid-template-columns:1fr 120px 120px;${i % 2 === 0 ? 'background:rgba(255,255,255,0.01);' : ''}border-bottom:1px solid rgba(255,255,255,0.05);`}>
+          <div style="padding:14px 20px;font-size:14px;color:#e2e8f0;">{row.feature}</div>
+          <div style="padding:14px 20px;text-align:center;font-size:14px;">
+            {typeof row.free === 'boolean'
+              ? row.free
+                ? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+                : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-linecap="round" style="display:inline-block;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              : <span style="color:#94a3b8;">{row.free}</span>
+            }
+          </div>
+          <div style="padding:14px 20px;text-align:center;font-size:14px;">
+            {typeof row.pro === 'boolean'
+              ? row.pro
+                ? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+                : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-linecap="round" style="display:inline-block;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              : <span style="color:#e2e8f0;font-weight:500;">{row.pro}</span>
+            }
+          </div>
         </div>
       ))}
     </div>
   </div>
 </section>
 
-<!-- ── PRICING ── -->
-<section id="pricing" class="py-28 px-6 border-t border-white/5">
-  <div class="max-w-4xl mx-auto">
-    <div class="text-center mb-16">
-      <p class="text-sm font-semibold text-blue-400 uppercase tracking-widest mb-3">Pricing</p>
-      <h2 class="text-3xl sm:text-5xl font-bold mb-5">Start free, scale when ready.</h2>
-      <p class="text-gray-400 max-w-sm mx-auto text-lg">No credit card required.</p>
+<!-- PRICING -->
+<section id="pricing" style="padding:112px 24px;border-top:1px solid rgba(255,255,255,0.06);">
+  <div style="max-width:720px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:48px;">
+      <p style="font-size:12px;font-weight:600;color:#60a5fa;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;">Pricing</p>
+      <h2 style="font-size:clamp(1.75rem,4vw,3rem);font-weight:800;letter-spacing:-0.02em;margin:0 0 12px;">Start free, scale when ready.</h2>
+      <p style="font-size:16px;color:#94a3b8;">No credit card required.</p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
       <!-- Free -->
-      <div class="p-8 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex flex-col">
-        <p class="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-4">Free</p>
-        <div class="flex items-end gap-1 mb-1">
-          <span class="text-5xl font-extrabold text-white">$0</span>
-        </div>
-        <p class="text-sm text-gray-500 mb-8">forever</p>
-        <ul class="space-y-3 flex-1">
-          {freeFeatures.map((item) => (
-            <li class="flex items-center gap-3 text-sm text-gray-300">
-              <svg class="w-4 h-4 text-blue-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+      <div style="padding:32px;border-radius:16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;">
+        <p style="font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 16px;">Free</p>
+        <p style="font-size:48px;font-weight:900;margin:0 0 4px;letter-spacing:-0.03em;">$0</p>
+        <p style="font-size:14px;color:#6b7280;margin:0 0 32px;">forever</p>
+        <ul style="list-style:none;padding:0;margin:0 0 32px;display:flex;flex-direction:column;gap:12px;flex:1;">
+          {["1 cluster", "Up to 4 namespaces", "30-day retention", "Grafana dashboard", "Prometheus exporter"].map(item => (
+            <li style="display:flex;align-items:center;gap:10px;font-size:14px;color:#cbd5e1;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;flex-shrink:0;"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
               {item}
             </li>
           ))}
         </ul>
-        <a href="https://github.com/yunusolgun/kubepocket" target="_blank" rel="noopener noreferrer"
-           class="mt-8 block text-center px-4 py-3 rounded-xl border border-white/10 hover:border-white/25 text-sm font-semibold text-gray-300 hover:text-white transition-colors">
+        <a href={GITHUB} target="_blank" rel="noopener noreferrer"
+           style="display:block;text-align:center;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);color:#d1d5db;font-size:14px;font-weight:600;text-decoration:none;">
           Get Started
         </a>
       </div>
 
       <!-- Pro -->
-      <div class="relative p-8 rounded-2xl bg-gradient-to-b from-blue-500/15 to-transparent border border-blue-500/25 flex flex-col">
-        <span class="absolute top-5 right-5 text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-500 text-white">Popular</span>
-        <p class="text-xs font-semibold text-blue-400 uppercase tracking-widest mb-4">Pro</p>
-        <div class="flex items-end gap-1 mb-1">
-          <span class="text-5xl font-extrabold text-white">$99</span>
-          <span class="text-gray-400 mb-1.5 text-base">/yr</span>
+      <div style="position:relative;padding:32px;border-radius:16px;background:linear-gradient(160deg,rgba(59,130,246,0.12),rgba(59,130,246,0.03));border:1px solid rgba(59,130,246,0.3);display:flex;flex-direction:column;">
+        <span style="position:absolute;top:16px;right:16px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;background:#3b82f6;color:#fff;">Popular</span>
+        <p style="font-size:11px;font-weight:600;color:#60a5fa;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 16px;">Pro</p>
+        <div style="display:flex;align-items:flex-end;gap:4px;margin-bottom:4px;">
+          <span style="font-size:48px;font-weight:900;letter-spacing:-0.03em;">$99</span>
+          <span style="font-size:16px;color:#9ca3af;margin-bottom:8px;">/yr</span>
         </div>
-        <p class="text-sm text-gray-500 mb-8">or $12 / month · per cluster</p>
-        <ul class="space-y-3 flex-1">
-          {proFeatures.map((item) => (
-            <li class="flex items-center gap-3 text-sm text-gray-300">
-              <svg class="w-4 h-4 text-blue-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+        <p style="font-size:14px;color:#6b7280;margin:0 0 32px;">or $12/month · per cluster</p>
+        <ul style="list-style:none;padding:0;margin:0 0 32px;display:flex;flex-direction:column;gap:12px;flex:1;">
+          {["Unlimited clusters", "Unlimited namespaces", "365-day retention", "Multi-cluster view", "Webhook alerts", "Weekly cost reports", "Anomaly detection", "7-day CPU forecast"].map(item => (
+            <li style="display:flex;align-items:center;gap:10px;font-size:14px;color:#cbd5e1;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;flex-shrink:0;"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
               {item}
             </li>
           ))}
         </ul>
-        <a href="https://github.com/yunusolgun/kubepocket" target="_blank" rel="noopener noreferrer"
-           class="mt-8 block text-center px-4 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 text-sm font-semibold transition-colors">
+        <a href={GITHUB} target="_blank" rel="noopener noreferrer"
+           style="display:block;text-align:center;padding:12px;border-radius:10px;background:#3b82f6;color:#fff;font-size:14px;font-weight:600;text-decoration:none;">
           Get Started
         </a>
       </div>
@@ -238,79 +282,72 @@ const proFeatures   = ["Unlimited clusters", "Unlimited namespaces", "365-day re
   </div>
 </section>
 
-<!-- ── FOOTER ── -->
-<footer class="border-t border-white/5 py-10 px-6">
-  <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
-    <span class="text-base font-bold text-white tracking-tight">Kube<span class="text-blue-400">Pocket</span></span>
-    <p>© 2025 KubePocket · Kubernetes cost & resource monitoring, simplified.</p>
-    <a href="https://github.com/yunusolgun/kubepocket" target="_blank" rel="noopener noreferrer"
-       class="flex items-center gap-1.5 hover:text-white transition-colors">
-      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+<!-- FOOTER -->
+<footer style="border-top:1px solid rgba(255,255,255,0.06);padding:40px 24px;">
+  <div style="max-width:1000px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;">
+    <span style="font-size:16px;font-weight:700;letter-spacing:-0.02em;">Kube<span style="color:#60a5fa;">Pocket</span></span>
+    <p style="font-size:14px;color:#6b7280;margin:0;">© 2025 KubePocket · Kubernetes cost &amp; resource monitoring, simplified.</p>
+    <a href={GITHUB} target="_blank" rel="noopener noreferrer"
+       style="display:flex;align-items:center;gap:6px;font-size:14px;color:#6b7280;text-decoration:none;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;">
+        <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+      </svg>
       GitHub
     </a>
   </div>
 </footer>
 
-<style>
-  .hero-gradient-text {
-    background: linear-gradient(to bottom, #ffffff, #9ca3af);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-</style>
-
 <script>
   const previews = [
-    { label: "Namespace Overview",  url: "Grafana · Namespace Overview",  desc: "CPU, memory, restarts and anomaly scores per namespace — at a glance." },
-    { label: "Cost Analysis",       url: "Grafana · Cost Analysis",        desc: "See exactly which namespaces are consuming your cluster budget." },
-    { label: "Waste Detection",     url: "Grafana · Waste Detection",      desc: "Surface over-provisioned pods and reclaim wasted CPU & memory." },
-    { label: "Pod Anomaly",         url: "Grafana · Pod Anomaly",          desc: "Rank pods by anomaly score, restart rate, and CPU spikes." },
-    { label: "Kubernetes Events",   url: "Grafana · Kubernetes Events",    desc: "Track OOMKilled, CrashLoopBackOff, and FailedScheduling in real time." },
-    { label: "Node Capacity",       url: "Grafana · Node Capacity",        desc: "Allocatable vs. requested vs. actual usage — per node." },
-    { label: "PVC & Storage",       url: "Grafana · PVC & Storage",        desc: "Bound/unbound PVCs, capacity, and active storage alerts." },
-    { label: "Recommendations",     url: "Grafana · Recommendations",      desc: "Actionable fixes for crashing pods and anomalous workloads." },
+    { url: "Grafana · Namespace Overview", desc: "CPU, memory, restarts and anomaly scores per namespace — at a glance." },
+    { url: "Grafana · Cost Analysis",      desc: "See exactly which namespaces are consuming your cluster budget." },
+    { url: "Grafana · Waste Detection",    desc: "Surface over-provisioned pods and reclaim wasted CPU & memory." },
+    { url: "Grafana · Pod Anomaly",        desc: "Rank pods by anomaly score, restart rate, and CPU spikes." },
+    { url: "Grafana · Kubernetes Events",  desc: "Track OOMKilled, CrashLoopBackOff, and FailedScheduling in real time." },
+    { url: "Grafana · Node Capacity",      desc: "Allocatable vs. requested vs. actual usage per node." },
+    { url: "Grafana · PVC & Storage",      desc: "Bound/unbound PVCs, capacity, and active storage alerts." },
+    { url: "Grafana · Recommendations",    desc: "Actionable fixes for crashing pods and anomalous workloads." },
   ];
 
   let current = 0;
-
-  const imgs   = document.querySelectorAll<HTMLImageElement>('.slide-img');
-  const tabs   = document.querySelectorAll<HTMLButtonElement>('.slider-tab');
-  const dots   = document.querySelectorAll<HTMLButtonElement>('.dot-btn');
-  const desc   = document.getElementById('slider-desc')!;
-  const urlEl  = document.getElementById('slider-url')!;
-  const prev   = document.getElementById('slide-prev')!;
-  const next   = document.getElementById('slide-next')!;
+  const imgs  = Array.from(document.querySelectorAll<HTMLImageElement>('.slide-img'));
+  const tabs  = Array.from(document.querySelectorAll<HTMLButtonElement>('.slider-tab'));
+  const dots  = Array.from(document.querySelectorAll<HTMLButtonElement>('.dot-btn'));
+  const desc  = document.getElementById('slider-desc')!;
+  const urlEl = document.getElementById('slider-url')!;
 
   function goTo(n: number) {
-    imgs[current].classList.replace('opacity-100', 'opacity-0');
-    tabs[current].classList.remove('bg-blue-500', 'text-white');
-    tabs[current].classList.add('bg-white/5', 'text-gray-400');
-    dots[current].classList.remove('w-4', 'h-1.5', 'bg-blue-400');
-    dots[current].classList.add('w-1.5', 'h-1.5', 'bg-white/20');
+    // deactivate current
+    imgs[current].style.opacity = '0';
+    tabs[current].style.background = 'rgba(255,255,255,0.05)';
+    tabs[current].style.color = '#9ca3af';
+    dots[current].style.width = '6px';
+    dots[current].style.height = '6px';
+    dots[current].style.background = 'rgba(255,255,255,0.2)';
 
     current = (n + previews.length) % previews.length;
 
-    imgs[current].classList.replace('opacity-0', 'opacity-100');
-    tabs[current].classList.remove('bg-white/5', 'text-gray-400');
-    tabs[current].classList.add('bg-blue-500', 'text-white');
-    dots[current].classList.remove('w-1.5', 'h-1.5', 'bg-white/20');
-    dots[current].classList.add('w-4', 'h-1.5', 'bg-blue-400');
+    // activate new
+    imgs[current].style.opacity = '1';
+    tabs[current].style.background = '#3b82f6';
+    tabs[current].style.color = '#fff';
+    dots[current].style.width = '16px';
+    dots[current].style.height = '6px';
+    dots[current].style.background = '#60a5fa';
 
     desc.textContent  = previews[current].desc;
     urlEl.textContent = previews[current].url;
   }
 
-  prev.addEventListener('click', () => goTo(current - 1));
-  next.addEventListener('click', () => goTo(current + 1));
-  tabs.forEach((tab) => tab.addEventListener('click', () => goTo(Number(tab.dataset.index))));
-  dots.forEach((dot) => dot.addEventListener('click', () => goTo(Number(dot.dataset.dot))));
+  document.getElementById('slide-prev')!.addEventListener('click', () => goTo(current - 1));
+  document.getElementById('slide-next')!.addEventListener('click', () => goTo(current + 1));
+  tabs.forEach(tab => tab.addEventListener('click', () => goTo(Number(tab.dataset.index))));
+  dots.forEach(dot => dot.addEventListener('click', () => goTo(Number(dot.dataset.dot))));
 
-  // auto-advance every 5s
   let timer = setInterval(() => goTo(current + 1), 5000);
-  document.getElementById('previews')!.addEventListener('mouseenter', () => clearInterval(timer));
-  document.getElementById('previews')!.addEventListener('mouseleave', () => {
-    timer = setInterval(() => goTo(current + 1), 5000);
-  });
+  const section = document.getElementById('previews')!;
+  section.addEventListener('mouseenter', () => clearInterval(timer));
+  section.addEventListener('mouseleave', () => { timer = setInterval(() => goTo(current + 1), 5000); });
 </script>
+
 </Layout>
