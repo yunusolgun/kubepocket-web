@@ -37,12 +37,6 @@ const tableRows = [
 >
 
 <style>
-  .gradient-text {
-    background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
   .icon-sm {
     display: inline-block;
     width: 16px;
@@ -76,17 +70,13 @@ const tableRows = [
 
 <!-- HERO -->
 <section style="position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:160px 24px 80px;overflow:hidden;">
-  <div style="position:absolute;inset:0;z-index:-1;pointer-events:none;">
-    <div style="position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:800px;height:500px;border-radius:50%;background:rgba(59,130,246,0.08);filter:blur(100px);"></div>
-  </div>
-
   <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:500;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:#9ca3af;margin-bottom:24px;">
     <span style="width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;"></span>
     Open source · Zero-config · Self-hosted
   </div>
 
   <h1 style="font-size:clamp(2.5rem,6vw,4.5rem);font-weight:900;line-height:1.05;letter-spacing:-0.03em;max-width:900px;margin:0 0 24px;">
-    <span class="gradient-text">Kubernetes cost &amp; resource<br/>monitoring</span>
+    <span style="color:#ffffff;">Kubernetes cost &amp; resource<br/>monitoring</span>
     <span style="color:#60a5fa;"> — simplified.</span>
   </h1>
 
