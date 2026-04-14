@@ -50,9 +50,7 @@ const proFeatures   = ["Unlimited clusters", "Unlimited namespaces", "365-day re
   </div>
 
   <h1 class="text-5xl sm:text-[4.5rem] font-extrabold leading-[1.05] tracking-tight max-w-4xl">
-    <span class="bg-gradient-to-b from-white to-gray-400 bg-clip-text text-transparent">
-      Kubernetes cost & resource<br/>monitoring
-    </span>
+    <span class="hero-gradient-text">Kubernetes cost &amp; resource<br/>monitoring</span>
     <span class="text-blue-400"> — simplified.</span>
   </h1>
 
@@ -85,32 +83,71 @@ const proFeatures   = ["Unlimited clusters", "Unlimited namespaces", "365-day re
   </div>
 </section>
 
-<!-- ── SCREENSHOTS GRID ── -->
-<section id="previews" class="py-28 px-6">
-  <div class="max-w-6xl mx-auto">
-    <div class="text-center mb-16">
+<!-- ── SCREENSHOT CAROUSEL ── -->
+<section id="previews" class="py-28 px-4 sm:px-6">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-12">
       <p class="text-sm font-semibold text-blue-400 uppercase tracking-widest mb-3">Screenshots</p>
-      <h2 class="text-3xl sm:text-5xl font-bold mb-5">Built for every corner<br class="hidden sm:block"/> of your cluster.</h2>
-      <p class="text-gray-400 max-w-lg mx-auto text-lg">8 dashboard sections — each focused on a specific operational question.</p>
+      <h2 class="text-3xl sm:text-5xl font-bold mb-4">Built for every corner of your cluster.</h2>
+      <p class="text-gray-400 max-w-lg mx-auto text-base">8 dashboard sections — each focused on a specific operational question.</p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      {previews.slice(1).map((p) => (
-        <div class="group rounded-2xl overflow-hidden border border-white/8 bg-white/[0.02] hover:border-blue-500/25 transition-all duration-300">
-          <div class="overflow-hidden">
-            <img
-              src={p.file}
-              alt={p.label}
-              class="w-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
-              loading="lazy"
-            />
-          </div>
-          <div class="px-5 py-4">
-            <p class="font-semibold text-white text-sm">{p.label}</p>
-            <p class="mt-1 text-xs text-gray-500 leading-relaxed">{p.desc}</p>
-          </div>
-        </div>
+    <!-- Tab labels -->
+    <div class="flex flex-wrap justify-center gap-2 mb-8" id="slider-tabs">
+      {previews.map((p, i) => (
+        <button
+          data-index={i}
+          class={`slider-tab px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${i === 0 ? 'bg-blue-500 text-white' : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'}`}
+        >
+          {p.label}
+        </button>
       ))}
+    </div>
+
+    <!-- Slide window -->
+    <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_60px_rgba(59,130,246,0.1)]">
+      <!-- Browser bar -->
+      <div class="flex items-center gap-1.5 px-4 py-3 bg-[#111118] border-b border-white/8">
+        <span class="w-3 h-3 rounded-full bg-white/10 block"></span>
+        <span class="w-3 h-3 rounded-full bg-white/10 block"></span>
+        <span class="w-3 h-3 rounded-full bg-white/10 block"></span>
+        <span class="ml-3 text-xs text-gray-500" style="font-family: 'JetBrains Mono', 'Fira Code', monospace;" id="slider-url">Grafana · Namespace Overview</span>
+      </div>
+
+      <!-- Images -->
+      <div class="relative overflow-hidden bg-[#111118]" style="aspect-ratio: 16/9;">
+        {previews.map((p, i) => (
+          <img
+            src={p.file}
+            alt={p.label}
+            data-slide={i}
+            class={`slide-img absolute inset-0 w-full h-full object-cover transition-opacity duration-400 ${i === 0 ? 'opacity-100' : 'opacity-0'}`}
+            loading={i === 0 ? 'eager' : 'lazy'}
+          />
+        ))}
+
+        <!-- Prev / Next -->
+        <button id="slide-prev" aria-label="Previous" class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center rounded-full bg-black/50 hover:bg-black/70 border border-white/10 text-white transition-colors z-10">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button id="slide-next" aria-label="Next" class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center rounded-full bg-black/50 hover:bg-black/70 border border-white/10 text-white transition-colors z-10">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+
+      <!-- Caption + dots -->
+      <div class="flex items-center justify-between px-5 py-4 bg-[#111118] border-t border-white/8">
+        <p class="text-sm text-gray-400" id="slider-desc">{previews[0].desc}</p>
+        <div class="flex items-center gap-1.5 shrink-0 ml-4" id="slider-dots">
+          {previews.map((_, i) => (
+            <button
+              data-dot={i}
+              aria-label={`Slide ${i + 1}`}
+              class={`dot-btn rounded-full transition-all ${i === 0 ? 'w-4 h-1.5 bg-blue-400' : 'w-1.5 h-1.5 bg-white/20 hover:bg-white/40'}`}
+            ></button>
+          ))}
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -214,4 +251,66 @@ const proFeatures   = ["Unlimited clusters", "Unlimited namespaces", "365-day re
   </div>
 </footer>
 
+<style>
+  .hero-gradient-text {
+    background: linear-gradient(to bottom, #ffffff, #9ca3af);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+</style>
+
+<script>
+  const previews = [
+    { label: "Namespace Overview",  url: "Grafana · Namespace Overview",  desc: "CPU, memory, restarts and anomaly scores per namespace — at a glance." },
+    { label: "Cost Analysis",       url: "Grafana · Cost Analysis",        desc: "See exactly which namespaces are consuming your cluster budget." },
+    { label: "Waste Detection",     url: "Grafana · Waste Detection",      desc: "Surface over-provisioned pods and reclaim wasted CPU & memory." },
+    { label: "Pod Anomaly",         url: "Grafana · Pod Anomaly",          desc: "Rank pods by anomaly score, restart rate, and CPU spikes." },
+    { label: "Kubernetes Events",   url: "Grafana · Kubernetes Events",    desc: "Track OOMKilled, CrashLoopBackOff, and FailedScheduling in real time." },
+    { label: "Node Capacity",       url: "Grafana · Node Capacity",        desc: "Allocatable vs. requested vs. actual usage — per node." },
+    { label: "PVC & Storage",       url: "Grafana · PVC & Storage",        desc: "Bound/unbound PVCs, capacity, and active storage alerts." },
+    { label: "Recommendations",     url: "Grafana · Recommendations",      desc: "Actionable fixes for crashing pods and anomalous workloads." },
+  ];
+
+  let current = 0;
+
+  const imgs   = document.querySelectorAll<HTMLImageElement>('.slide-img');
+  const tabs   = document.querySelectorAll<HTMLButtonElement>('.slider-tab');
+  const dots   = document.querySelectorAll<HTMLButtonElement>('.dot-btn');
+  const desc   = document.getElementById('slider-desc')!;
+  const urlEl  = document.getElementById('slider-url')!;
+  const prev   = document.getElementById('slide-prev')!;
+  const next   = document.getElementById('slide-next')!;
+
+  function goTo(n: number) {
+    imgs[current].classList.replace('opacity-100', 'opacity-0');
+    tabs[current].classList.remove('bg-blue-500', 'text-white');
+    tabs[current].classList.add('bg-white/5', 'text-gray-400');
+    dots[current].classList.remove('w-4', 'h-1.5', 'bg-blue-400');
+    dots[current].classList.add('w-1.5', 'h-1.5', 'bg-white/20');
+
+    current = (n + previews.length) % previews.length;
+
+    imgs[current].classList.replace('opacity-0', 'opacity-100');
+    tabs[current].classList.remove('bg-white/5', 'text-gray-400');
+    tabs[current].classList.add('bg-blue-500', 'text-white');
+    dots[current].classList.remove('w-1.5', 'h-1.5', 'bg-white/20');
+    dots[current].classList.add('w-4', 'h-1.5', 'bg-blue-400');
+
+    desc.textContent  = previews[current].desc;
+    urlEl.textContent = previews[current].url;
+  }
+
+  prev.addEventListener('click', () => goTo(current - 1));
+  next.addEventListener('click', () => goTo(current + 1));
+  tabs.forEach((tab) => tab.addEventListener('click', () => goTo(Number(tab.dataset.index))));
+  dots.forEach((dot) => dot.addEventListener('click', () => goTo(Number(dot.dataset.dot))));
+
+  // auto-advance every 5s
+  let timer = setInterval(() => goTo(current + 1), 5000);
+  document.getElementById('previews')!.addEventListener('mouseenter', () => clearInterval(timer));
+  document.getElementById('previews')!.addEventListener('mouseleave', () => {
+    timer = setInterval(() => goTo(current + 1), 5000);
+  });
+</script>
 </Layout>
